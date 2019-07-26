@@ -79,10 +79,24 @@ export default class TodoList extends React.Component {
         </div>
         {
           list.filter((item) => {
-            const text = searchText.replace(/\\+/g, '')
-            if (text === '') return true;
-            const pattrn = new RegExp(text + '', 'g');
+            // way 1:
+            const text = searchText.replace(/\\/g, '\\\\')
+              .replace(/\?/g, '\\?')
+              .replace(/\*/g, '\\*')
+              .replace(/\./g, '\\.')
+              .replace(/\$/g, '\\$')
+              .replace(/\[/g, '\\[')
+              // .replace(/\]/g, '\\]')
+              .replace(/\^/g, '\\^')
+              .replace(/\(/g, '\\(')
+              .replace(/\)/g, '\\)')
+              .replace(/\|/g, '\\|')
+
+            const pattrn = new RegExp(text, 'g');
             return pattrn.test(item.content);
+
+            // way 2
+            // return item.content.indexOf(searchText) !== -1
           }).filter(item => {
             if (status === 'all') {
               return true
